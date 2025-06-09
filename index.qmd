@@ -1,0 +1,594 @@
+---
+title: "Modelación de la Tasa de Vacunación contra el COVID-19 en Colombia un análisis de  Regresión Beta"
+format:
+  html:
+    theme: flatly           # Puedes cambiar por: cerulean, cosmo, journal, lumen, united
+    highlight: tango        # Estilo de resaltado de código
+    toc: true               # Muestra tabla de contenido
+    toc-depth: 3            # Profundidad máxima del TOC
+    toc-location: left      # Posición del TOC flotante
+    toc_float: true         # Tabla de contenido flotante
+    number-sections: true   # Numeración de secciones
+    df-print: paged         # Tablas paginadas si son largas
+    fig-cap-location: bottom # Para leyendas bajo gráficos
+    code-fold: true         # Opción para plegar código
+    keep-md: true           # Guarda el markdown intermedio
+    bibliography: referencias.bib
+    csl: apa.csl            # si estás usando estilo APA
+    citation: true
+---
+
+2025-05-16
+
+```{r}
+#| message: false
+#| warning: false
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.width = 7,
+  fig.height = 5,
+  fig.align = "center"
+)
+
+```
+
+
+
+
+::: {style="text-align: left;"}
+**Zamora, T. Jesús D**[^1]  
+[thowinssonj@uninorte.edu.co](mailto:thowinssonj@uninorte.edu.co)  
+
+**Melendez, A. Gregory J**[^2]  
+[gjmelendez@uninorte.edu.co](mailto:gjmelendez@uninorte.edu.co)  
+:::
+
+::: {style="text-align: center;"}
+Barranquilla-Colombia.
+:::
+
+[^1]: *Jesús David Zamora Thowinsson*. Economista y Administrador Público, Especialista en Estadística Aplicada, Candidato a Magíster Scientiarum en Gerencia Empresarial, Magíster en Estadística Aplicada Universidad del Norte.
+
+[^2]: *Gregory Jesús Melendez Alvarez*. Economista, Especialista en Estadística Aplicada, Magíster en Estadística Aplicada Universidad del Norte.
+
+
+```{=html}
+<iframe src="globo.html" width="80%" height="300" style="border:none;"></iframe>
+```
+
+
+```{=html}
+<style>
+  #TOC::before {
+    content: "";
+    display: block;
+    width: 100%;
+    background-image: url('Imagen_portada.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    height: 250px; /* Ajusta la altura según tu imagen */
+  }
+</style>
+```
+
+::: {#toc-imagen-container}
+<img src="Portada2.jpg" alt="Ejercicios de Practicas" id="imagen-toc"/>
+:::
+
+::: {style="text-align: left;"}
+#  Resumen
+::: 
+
+::: {style="text-align: justify;"}
+La tasa de vacunación es un indicador clave en el ámbito de la salud pública debido a su impacto directo en la prevención de enfermedades. Su importancia radica en que no solo protege a los individuos vacunados, sino que también genera un efecto positivo a nivel comunitario, contribuyendo al control y erradicación de diversas enfermedades infecciosas. Una alta tasa de vacunación reduce significativamente la carga sobre los sistemas de salud, al disminuir la prevalencia de enfermedades transmisibles, lo que a su vez disminuye los costos asociados a su tratamiento y hospitalización. Además, mejora la calidad de vida de las personas al prevenir complicaciones graves y potenciales muertes prematuras. La cobertura universal de vacunas también favorece la construcción de "inmunidad colectiva", protegiendo a los individuos más vulnerables que no pueden recibir la vacuna debido a condiciones médicas. La vacunación, por tanto, juega un papel crucial en el logro de los objetivos globales de salud pública establecidos por organismos internacionales, como la Organización Mundial de la Salud (OMS). En resumen, la tasa de vacunación es una herramienta fundamental para la promoción de la salud, la sostenibilidad de los sistemas sanitarios y la mejora del bienestar de las comunidades a nivel global.
+:::
+
+# Introducción
+
+::: {style="text-align: justify;"}
+La tasa de vacunación es crucial por diversas razones que impactan tanto la salud pública como la economía y el bienestar social. A continuación, te proporciono una estructura detallada sobre su importancia:
+
+1. Prevención de Enfermedades Infecciosas
+La tasa de vacunación es un factor clave en la prevención de enfermedades infecciosas. Al aumentar la cobertura de vacunación, se reduce la propagación de virus y bacterias, lo que ayuda a prevenir brotes y epidemias. Esto es especialmente importante para enfermedades como la poliomielitis, el sarampión, la rubéola, y más recientemente, el COVID-19.
+
+Inmunidad colectiva: Cuando un porcentaje suficiente de la población está vacunada, se crea lo que se conoce como inmunidad colectiva o de rebaño. Esto significa que incluso aquellos que no pueden recibir la vacuna, como personas con condiciones de salud preexistentes o alérgicas, están protegidos indirectamente debido a la baja circulación del patógeno.
+
+2. Reducción de la Mortalidad y Morbilidad
+Las vacunas han sido responsables de la reducción significativa en las tasas de mortalidad y morbilidad de diversas enfermedades. La tasa de vacunación alta está directamente relacionada con una menor cantidad de muertes y complicaciones derivadas de enfermedades prevenibles por vacunación.
+
+Reducción de hospitalizaciones: Las personas vacunadas son menos propensas a desarrollar formas graves de enfermedades, lo que reduce la presión sobre los sistemas de salud y los hospitales, especialmente durante brotes o pandemias.
+
+3. Costos en Salud Pública
+Una alta tasa de vacunación no solo mejora la salud pública, sino que también reduce los costos relacionados con la atención médica. Esto incluye el tratamiento de enfermedades graves, hospitalizaciones, y los costos de los programas de salud pública que se necesitarían para controlar brotes. Las vacunas, al ser más baratas que el tratamiento de enfermedades graves, representan una inversión económica en la salud a largo plazo.
+
+4. Eliminación de Enfermedades y Erradicación de Patógenos
+En algunos casos, una alta tasa de vacunación ha llevado a la erradicación de enfermedades. El ejemplo más destacado es la erradicación de la viruela, y más recientemente, la drástica reducción de casos de polio en muchas partes del mundo. La eliminación de patógenos por medio de la vacunación no solo salva vidas, sino que también reduce la carga en los sistemas de salud a nivel global.
+
+5. Protección a Poblaciones Vulnerables
+Al mantener altas tasas de vacunación, se protege especialmente a las poblaciones vulnerables, como los niños, los ancianos, y las personas con sistemas inmunitarios comprometidos. Estas personas son más propensas a desarrollar enfermedades graves y, por lo tanto, se benefician directamente de una alta tasa de vacunación en la comunidad.
+
+6. Fomentar la Confianza en las Vacunas
+Una alta tasa de vacunación también ayuda a fomentar la confianza en los programas de vacunación y en las políticas de salud pública. Cuando las personas ven que las vacunas son efectivas y seguras, se sienten más inclinadas a vacunarse, lo que mejora aún más las tasas de cobertura.
+
+7. Impacto Global en la Salud
+A nivel global, las altas tasas de vacunación son esenciales para controlar enfermedades infecciosas transnacionales y evitar pandemias. Programas internacionales como los promovidos por la Organización Mundial de la Salud (OMS) trabajan para aumentar la cobertura de vacunación en todo el mundo, especialmente en países de ingresos bajos y medios.
+:::
+
+# Metodologia
+
+::: {style="text-align: justify;"}
+En este documento se explicará cómo funciona el modelo beta en el contexto de un modelo lineal generalizado (GLM), utilizando la tasa de vacunación como ejemplo para una variable dependiente. Se detallará la media esperada $(𝜇)$ y su cálculo utilizando la función de enlace logit.
+
+### Supuestos del Modelo
+
+La variable dependiente $(y_i)$ (tasa de vacunación) está en el intervalo $(0, 1)$.
+
+$$
+y_i \sim \text{Beta}(\mu_i, \phi)
+$$
+Donde:
+
+-   $(\mu_i \in (0, 1))$: es la media de la tasa de vacunación para el individuo o grupo (i).
+-   $(\phi > 0)$: es el parámetro de precisión (similar a una inversa de la varianza).
+
+### Modelo Lineal sobre la Media (con Función de Enlace Logit)
+
+Usamos la función de enlace logit para mapear la media $(\mu_i \in (0, 1))$ al espacio real:
+
+$$
+\text{logit}(\mu_i) = \log\left(\frac{\mu_i}{1 - \mu_i}\right) = \eta_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \beta_3 x_{3i} + \beta_4 x_{4i}
+$$
+Entonces:
+
+$$
+\mu_i = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_{1i} + \dots + \beta_4 x_{4i})}}
+$$
+
+### ¿Qué Representa Cada Cosa?
+
+-   $(y_i)$: tasa de vacunación observada.
+-   $(\mu_i)$: valor esperado de la tasa de vacunación dado $(x_1, x_2, x_3, x_4)$.
+-   $(\beta_0, \dots, \beta_4)$: coeficientes a estimar.
+-   $(x_{1i}, \dots, x_{4i})$: variables independientes (por ejemplo: edad promedio, nivel educativo, ingresos, acceso a centros de salud).
+
+## Modelo Beta: Parametrización
+ 
+En una regresión beta, se asume que cada $y_i \in (0,1)$ sigue una distribución beta con parámetros:
+ 
+$$
+y_i \sim \text{Beta}(\mu_i \phi, (1 - \mu_i)\phi)
+$$
+ 
+Donde:
+ 
+- La **media** es:  
+  $$
+  \mathbb{E}[y_i] = \mu_i
+  $$
+ 
+- La **varianza** es:  
+  $$
+  \text{Var}(y_i) = \frac{\mu_i(1 - \mu_i)}{1 + \phi}
+  $$
+ 
+### Función de Verosimilitud
+ 
+La función de densidad de una variable beta con parametrización en términos de $\mu_i$ y $\phi$ es:
+ 
+$$
+f(y_i; \mu_i, \phi) = \frac{\Gamma(\phi)}{\Gamma(\mu_i \phi)\Gamma((1 - \mu_i)\phi)} y_i^{\mu_i\phi - 1} (1 - y_i)^{(1 - \mu_i)\phi - 1}
+$$
+ 
+La función de verosimilitud conjunta para todos los $i$ es el producto de estas densidades, y su log-verosimilitud es:
+ 
+$$
+\ell(\mu, \phi) = \sum_{i=1}^n \left[ \log \Gamma(\phi) - \log \Gamma(\mu_i \phi) - \log \Gamma((1 - \mu_i)\phi) + (\mu_i \phi - 1)\log y_i + ((1 - \mu_i)\phi - 1)\log (1 - y_i) \right]
+$$
+ 
+ 
+### Estimación de $\phi$
+ 
+Para estimar $\phi$, se toma la derivada de la log-verosimilitud con respecto a $\phi$, y se iguala a cero:
+ 
+$$
+\frac{\partial \ell}{\partial \phi} = 0
+$$
+ 
+Esto implica derivadas de la función gamma, que se expresan mediante la **función digamma**:
+ 
+$$
+\psi(x) = \frac{d}{dx} \log \Gamma(x)
+$$
+ 
+Entonces se obtiene la siguiente ecuación:
+ 
+$$
+\sum_{i=1}^n \left[ \psi(\phi) - \mu_i \psi(\mu_i \phi) - (1 - \mu_i) \psi((1 - \mu_i)\phi) + \mu_i \log y_i + (1 - \mu_i) \log(1 - y_i) \right] = 0
+$$
+
+ 
+### Conclusión
+ 
+- No puedes aislar $\phi$ en una fórmula simple.
+- Depende de todos los valores $y_i$ y $\mu_i$.
+- Involucra funciones especiales (gamma, digamma).
+- Se estima resolviendo la ecuación numéricamente mediante algoritmos como **Newton-Raphson** o **BFGS**.
+
+## Varianza del Modelo
+
+La varianza de $(y_i)$ en un modelo Beta no es constante (como en regresión lineal):
+
+$$
+\text{Var}(y_i) = \frac{\mu_i (1 - \mu_i)}{1 + \phi}
+$$
+
+Entonces, cuanto mayor es $(\phi)$, menor es la varianza alrededor de $(\mu_i)$.
+
+### ¿Qué significa que $(\phi > 0)$?
+
+En el modelo Beta, el parámetro $(\phi)$ (llamado precisión o dispersión inversa) siempre es positivo:
+
+$$
+\phi > 0
+$$
+-   No puede ser cero.
+-   No puede ser negativo.
+
+### ¿Cómo afecta a la forma de la distribución?
+
+La varianza de una variable Beta se calcula de la siguiente manera:
+
+$$
+\text{Var}(y) = \frac{\mu (1 - \mu)}{1 + \phi}
+$$
+
+### Valor de $(\phi)$ y su impacto en la varianza:
+
+| **Valor de $(\phi)$ | **¿Qué pasa con la varianza?** | **¿Qué significa?** |
+|------------------------|-----------------------------|--------------------|
+| Muy bajo (ej. 1) | Varianza alta | Alta dispersión: los valores de  $(y)$ están bien esparcidos entre 0 y 1. |
+| Moderado (ej. 10) | Varianza media | Los valores de $(y)$ comienzan a concentrarse más alrededor de $(\mu)$. |
+| Alto (ej. 100 o más) | Varianza baja | Alta precisión: casi todos los valores de $(y)$ están muy cerca de $(\mu)$. |
+
+### Explicación de la tabla:
+
+-   $\phi$ muy bajo: Esto implica que hay una alta dispersión en los valores de la tasa de vacunación, lo que significa que los valores de yyy (tasa de vacunación) están más distribuidos a lo largo del intervalo (0,1)(0, 1)(0,1).
+
+    $\phi$ moderado: A medida que $\phi$ aumenta, los valores de yyy tienden a concentrarse más alrededor de la media μ\muμ, reduciendo la dispersión.
+
+    $\phi$ alto: Un $\phi$ alto indica una alta precisión, es decir, la mayoría de los valores de yyy están muy cerca de la media μ\muμ.
+
+### Interpretación de $(\phi)$ en el Modelo Beta
+
+-   $(\phi)$ pequeño (por ejemplo, $(\phi \approx 1))$
+    Los datos son más dispersos alrededor de la media. Las observaciones tienen mayor variabilidad.
+
+-   $(\phi)$ moderado (por ejemplo, $(\phi \approx 5 \text{ o } 10)$
+    Hay una dispersión moderada. Los datos no están excesivamente dispersos, pero tampoco están demasiado concentrados alrededor de la media.
+
+-   $(\phi)$ grande (por ejemplo, $(\phi > 10)$
+    Los datos son más concentrados alrededor de la media. Las observaciones están muy cerca de $(\mu)$, lo que indica menos variabilidad.
+:::
+
+# Resultados
+
+```{r}
+#| message: false
+#| warning: false
+
+library(readxl)
+
+# Definir la ruta al archivo Excel
+ruta_archivo <- "/Users/instructorzamora/Documents/3_Maestria_Estadistica_UNINORTE/3_Tercer_Semestre/Advanced_Statistics/Tasa_Vacun/owid-covid-data.xlsx"
+
+# Cargar el archivo Excel en un data frame
+datos <- read_excel(ruta_archivo)
+
+# Verificar las primeras filas del dataset
+head(datos)
+colnames(datos)
+```
+
+```{r}
+#| message: false
+#| warning: false
+# Crear un data frame con los nombres de las variables y sus descripciones
+variables <- data.frame(
+  Variable = c("iso_code", "continent", "location", "date", "total_cases", 
+               "new_cases", "new_cases_smoothed", "total_deaths", "new_deaths", 
+               "new_deaths_smoothed", "total_cases_per_million", "new_cases_per_million", 
+               "new_cases_smoothed_per_million", "total_deaths_per_million", 
+               "new_deaths_per_million", "new_deaths_smoothed_per_million", 
+               "reproduction_rate", "icu_patients", "icu_patients_per_million", 
+               "hosp_patients", "hosp_patients_per_million", "weekly_icu_admissions", 
+               "weekly_icu_admissions_per_million", "weekly_hosp_admissions", 
+               "weekly_hosp_admissions_per_million", "total_tests", "new_tests", 
+               "total_tests_per_thousand", "new_tests_per_thousand", 
+               "new_tests_smoothed", "new_tests_smoothed_per_thousand", "positive_rate", 
+               "tests_per_case", "tests_units", "total_vaccinations", "people_vaccinated", 
+               "people_fully_vaccinated", "total_boosters", "new_vaccinations", 
+               "new_vaccinations_smoothed", "total_vaccinations_per_hundred", 
+               "people_vaccinated_per_hundred", "people_fully_vaccinated_per_hundred", 
+               "total_boosters_per_hundred", "new_vaccinations_smoothed_per_million", 
+               "new_people_vaccinated_smoothed", "new_people_vaccinated_smoothed_per_hundred", 
+               "stringency_index", "population_density", "median_age", "aged_65_older", 
+               "aged_70_older", "gdp_per_capita", "extreme_poverty", "cardiovasc_death_rate", 
+               "diabetes_prevalence", "female_smokers", "male_smokers", "handwashing_facilities", 
+               "hospital_beds_per_thousand", "life_expectancy", "human_development_index", 
+               "population", "excess_mortality_cumulative_absolute", 
+               "excess_mortality_cumulative", "excess_mortality", 
+               "excess_mortality_cumulative_per_million"),
+  Descripción = c("Código del país o región según el estándar ISO", 
+                  "Continente al que pertenece el país o región", 
+                  "Nombre del país o región", 
+                  "Fecha de la observación", 
+                  "Total de casos confirmados de COVID-19 en el país o región", 
+                  "Nuevos casos confirmados de COVID-19 en el día", 
+                  "Promedio de nuevos casos confirmados de COVID-19 suavizados por 7 días", 
+                  "Total de muertes confirmadas por COVID-19 en el país o región", 
+                  "Nuevas muertes confirmadas por COVID-19 en el día", 
+                  "Promedio de nuevas muertes confirmadas de COVID-19 suavizadas por 7 días", 
+                  "Total de casos por millón de habitantes", 
+                  "Nuevos casos por millón de habitantes", 
+                  "Nuevos casos suavizados por millón de habitantes", 
+                  "Total de muertes por millón de habitantes", 
+                  "Nuevas muertes por millón de habitantes", 
+                  "Nuevas muertes suavizadas por millón de habitantes", 
+                  "Tasa de reproducción del virus", 
+                  "Número de pacientes en unidades de cuidados intensivos (UCI)", 
+                  "Número de pacientes en UCI por millón de habitantes", 
+                  "Número de pacientes hospitalizados", 
+                  "Número de pacientes hospitalizados por millón de habitantes", 
+                  "Nuevas admisiones a UCI por semana", 
+                  "Nuevas admisiones a UCI por millón de habitantes por semana", 
+                  "Nuevas admisiones a hospitales por semana", 
+                  "Nuevas admisiones a hospitales por millón de habitantes por semana", 
+                  "Total de pruebas realizadas para detectar COVID-19", 
+                  "Nuevas pruebas realizadas en el día", 
+                  "Total de pruebas por cada mil habitantes", 
+                  "Nuevas pruebas por cada mil habitantes", 
+                  "Nuevas pruebas suavizadas por 7 días", 
+                  "Nuevas pruebas suavizadas por mil habitantes", 
+                  "Tasa de resultados positivos entre las pruebas realizadas", 
+                  "Número de pruebas realizadas por cada caso confirmado", 
+                  "Unidad de medida de las pruebas", 
+                  "Total de personas vacunadas", 
+                  "Total de personas que han recibido al menos una dosis de la vacuna", 
+                  "Total de personas completamente vacunadas", 
+                  "Total de dosis de refuerzo administradas", 
+                  "Nuevas personas vacunadas en el día", 
+                  "Nuevas personas vacunadas suavizadas por 7 días", 
+                  "Total de vacunaciones por cada 100 personas", 
+                  "Personas vacunadas por cada 100 personas", 
+                  "Personas completamente vacunadas por cada 100 personas", 
+                  "Dosis de refuerzo por cada 100 personas", 
+                  "Nuevas vacunaciones suavizadas por millón de habitantes", 
+                  "Nuevas personas vacunadas suavizadas por 7 días", 
+                  "Nuevas personas vacunadas suavizadas por 100 personas", 
+                  "Índice de severidad de las medidas de restricción COVID-19", 
+                  "Densidad de población (habitantes por km²)", 
+                  "Edad media de la población", 
+                  "Porcentaje de la población de 65 años o más", 
+                  "Porcentaje de la población de 70 años o más", 
+                  "Producto Interno Bruto (PIB) per cápita", 
+                  "Porcentaje de la población que vive en pobreza extrema", 
+                  "Tasa de mortalidad por enfermedades cardiovasculares", 
+                  "Prevalencia de diabetes en la población", 
+                  "Porcentaje de mujeres que fuman", 
+                  "Porcentaje de hombres que fuman", 
+                  "Porcentaje de población con acceso a instalaciones para lavarse las manos", 
+                  "Número de camas de hospital por cada mil habitantes", 
+                  "Esperanza de vida promedio en años", 
+                  "Índice de desarrollo humano (IDH)", 
+                  "Población total del país o región", 
+                  "Mortalidad excesiva acumulada en términos absolutos", 
+                  "Mortalidad excesiva acumulada en términos relativos", 
+                  "Mortalidad excesiva en el periodo", 
+                  "Mortalidad excesiva acumulada por millón de habitantes")
+)
+
+# Mostrar la tabla con las variables y sus descripciones
+knitr::kable(variables, caption = "Significado de las Variables")
+
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+#| label: tbl-clases-filtradas
+#| tbl-cap: "Tipos de Variable con Filtro Interactivo por Clase"
+
+# 1. Cargar la librería DT
+library(DT)
+
+# 2. Obtenemos las clases de cada variable en un vector
+clases <- sapply(datos, class)
+
+# 3. Convertimos el resultado en un data frame
+tabla_clases <- data.frame(
+  Variable = names(clases),
+  Clase = unname(clases),
+  row.names = NULL
+)
+
+# 4. Creamos la tabla interactiva con el filtro desplegable
+datatable(
+  tabla_clases,
+  filter = 'top', # <-- ¡Esta es la clave para los filtros!
+  options = list(pageLength = 10)
+)
+```
+
+
+# Las Variables Propuestas
+
+::: {style="text-align: justify;"}
+La selección de variables es un paso crítico para modelar la tasa de vacunación de manera efectiva. Proponemos una triada de indicadores que, en conjunto, ofrecen una visión integral de los factores que impulsan o limitan el éxito de una campaña de inmunización. Estas variables son:
+:::
+
+1. stringency_index (Índice de severidad de las medidas)
+2. total_tests (Total de pruebas realizadas para detectar COVID-19)
+3. total_deaths (Total de muertes confirmadas por COVID-19 en el país o región)
+
+::: {style="text-align: justify;"}
+
+1. `stringency_index` **(Índice de Severidad de las Medidas)**: Esta variable es crucial porque actúa como un proxy directo de la respuesta gubernamental y las políticas de salud pública. Un índice alto no solo refleja la implementación de medidas como confinamientos o restricciones de movilidad, sino que también indica la capacidad y voluntad del estado para intervenir en la crisis. Estas políticas pueden influir directamente en la vacunación a través de mandatos, campañas de concientización o, por el contrario, restringiendo el acceso si la logística se centra en otras áreas. Por lo tanto, este índice captura el contexto normativo en el que se desarrolla la vacunación.
+
+2. `total_tests` **(Total de Pruebas Realizadas)**: Más que un simple conteo de pruebas, esta variable es un indicador fundamental de la capacidad y la infraestructura del sistema de salud. Un país con la capacidad de realizar un alto volumen de pruebas demuestra tener la red logística, el personal y los sistemas de información necesarios para llevar a cabo otra operación masiva de salud pública: la vacunación. Refleja la visibilidad de la pandemia dentro del país; a mayor número de pruebas, mayor es la conciencia sobre la magnitud del problema, lo que a su vez puede incentivar tanto la acción gubernamental como la demanda de vacunas por parte de la población.
+
+2. `total_deaths` **(Total de Muertes Confirmadas)**: Esta es, quizás, la variable más directa para medir la percepción del riesgo y la urgencia a nivel social. Un número elevado de muertes por COVID-19 impacta de forma contundente la conciencia pública, actuando como un poderoso motivador para que la población busque activamente la vacunación como medida de protección. Además, la presión social y mediática generada por altas tasas de mortalidad suele obligar a los gobiernos a acelerar y priorizar los programas de inmunización. Mide, en esencia, el costo humano de la pandemia, un factor determinante en la demanda de vacunas.
+
+En conclusión, al combinar estas tres variables no solo cubrimos las políticas públicas (stringency_index), la capacidad logística del sistema (total_tests) y la motivación ciudadana (total_deaths), sino que creamos un modelo robusto. Este enfoque nos permite obtener una visión multifacética y precisa de los factores que, en conjunto, explican las variaciones en la tasa de vacunación entre diferentes poblaciones.
+:::
+
+
+```{r}
+#| message: false
+#| warning: false
+library(dplyr)
+# Filtrar los datos para seleccionar solo Colombia y las variables de interés
+nueva_base_datos <- datos %>%
+  filter(location == "Colombia") %>%  # Seleccionar solo los datos de Colombia
+  select(total_vaccinations_per_hundred, stringency_index,total_tests,total_deaths)  # Seleccionar las variables de interés
+ 
+# Ver las primeras filas de la nueva base de datos
+(nueva_base_datos)
+
+```
+
+::: {.cell}
+```{=html}
+<iframe src="https://ourworldindata.org/explorers/covid?tab=map&zoomToSelection=true&facet=none&uniformYAxis=0&country=OWID_WRL~COL&pickerSort=asc&pickerMetric=entityName&hideControls=true&Metric=Vaccine+doses&Interval=7-day+rolling+average&Relative+to+population=true"
+        loading="lazy"
+        style="width: 100%; height: 600px; border: 0px none;"
+        allow="web-share; clipboard-write">
+</iframe>
+```
+:::
+
+```{r}
+#| message: false
+#| warning: false
+#| include: false
+# Ver cuántos NA hay en cada columna
+na_por_variable <- colSums(is.na(nueva_base_datos))
+ 
+# Mostrar los resultados ordenados de mayor a menor
+na_por_variable[order(-na_por_variable)]
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| include: false
+# Escalar la variable dependiente (evitando 0 y 1 exactos)
+nueva_base_datos <- nueva_base_datos %>%
+  mutate(total_vaccinations_scaled = (total_vaccinations_per_hundred + 0.0001) / (max(total_vaccinations_per_hundred, na.rm = TRUE) + 0.0002))
+ 
+nueva_base_datos
+```
+
+
+
+```{r}
+library(betareg)
+modelo_beta<- betareg(total_vaccinations_scaled ~ stringency_index +  total_tests + total_deaths , data = nueva_base_datos)
+ 
+# Ver resumen del modelo
+summary(modelo_beta)
+
+```
+
+### Fórmula
+$$
+\text{logit}(\hat{\mu}_i) = \ln\left(\frac{\hat{\mu}_i}{1 - \hat{\mu}_i}\right) = \hat{\beta}_0 + \hat{\beta}_1 X_{1i} + \hat{\beta}_2 X_{2i} + \hat{\beta}_3 X_{3i}
+$$
+
+$$
+\text{logit}(\widehat{\text{tasa de vacunación}}) = -4.994 - 0.0212 \cdot (\text{stringency\_index}) + (2.343 \times 10^{-7}) \cdot (\text{total\_tests}) - (6.470 \times 10^{-7}) \cdot (\text{total\_deaths})
+$$
+
+::: {style="text-align: justify;"}
+**Coeficientes (Modelo de la Media con Enlace Logit)**
+
+Estos coeficientes te indican cómo cada variable predictora influye en las probabilidades logarítmicas (log-odds) de la tasa de vacunación. Recuerda que, debido al enlace logit, estos no son cambios directos en la proporción en sí, sino cambios en las probabilidades logarítmicas.
+
+`Intercepto`: $-4.994e+00 (p<0.001)$
+
+Este es el estimado de las probabilidades logarítmicas de la tasa de vacunación cuando `stringency_index`, `total_tests` y `total_deaths` son todos cero. Es altamente significativo estadísticamente.
+
+`stringency_index`: $-2.120e-02 (p=0.000174)$
+
+Este coeficiente es negativo y altamente significativo estadísticamente.
+
+Interpretación: Por cada aumento de una unidad en el stringency_index, las probabilidades logarítmicas de la tasa de vacunación se estiman que disminuyen en $0.0212$. Esto sugiere que medidas gubernamentales más estrictas podrían estar asociadas con tasas de vacunación ligeramente más bajas, manteniendo los demás factores constantes.
+
+`total_tests`: $2.343e-07 (p<2e−16)$
+
+Este coeficiente es positivo y extremadamente significativo estadísticamente. ¡Este es un efecto muy fuerte!
+
+Interpretación: Por cada total_test adicional realizado, las probabilidades logarítmicas de la tasa de vacunación se estiman que aumentan en $2.343e-07$. Aunque el número en sí es muy pequeño, total_tests probablemente abarca un rango amplio, lo que significa que su impacto general puede ser sustancial. Esto tiene sentido intuitivamente: un mayor número de pruebas podría indicar una respuesta de salud pública más robusta, lo que podría llevar a una mayor adopción de la vacunación.
+
+`total_deaths`: $-6.470e-07 (p=0.877333)$
+
+Este coeficiente no es estadísticamente significativo $(p-valor = 0.877)$.
+
+Interpretación: Según este modelo, no hay una relación lineal estadísticamente significativa entre total_deaths y las probabilidades logarítmicas de la tasa de vacunación al tener en cuenta el stringency_index y total_tests. No puedes concluir con confianza que total_deaths sea un predictor de las tasas de vacunación en este modelo en particular.
+:::
+
+```{r}
+#| message: false
+#| warning: false
+head(fitted(modelo_beta))
+```
+
+```{r}
+#| message: false
+#| warning: false
+# Asegúrate de tener ggplot2 cargado para una visualización efectiva
+library(ggplot2)
+ 
+# Obtener los valores ajustados (predicciones de probabilidad) de tu modelo
+predicciones_probabilidad <- fitted(modelo_beta)
+# Crear un dataframe para la gráfica
+# Usamos un índice secuencial para el eje X, representando cada "individuo" u observación
+df_predicciones_lineales <- data.frame(
+  Indice_Observacion = 1:length(predicciones_probabilidad),
+  Probabilidad_Predicha = predicciones_probabilidad
+)
+ 
+# Crear el gráfico lineal
+ggplot(df_predicciones_lineales, aes(x = Indice_Observacion, y = Probabilidad_Predicha)) +
+  geom_line(color = "darkblue", alpha = 0.7) + # Conecta los puntos con una línea
+  geom_point(color = "darkblue", size = 1.5, alpha = 0.8) + # Añade los puntos individuales
+  labs(title = "Probabilidad de Vacunación Predicha a lo Largo de las Observaciones",
+       x = "Índice de la Observación(tiempo)",
+       y = "Probabilidad Predicha de Vacunación") +
+  theme_minimal() +
+  ylim(0, 1) # Asegura que el eje Y vaya de 0 a 1, ya que son probabilidades
+```
+
+
+# Discusión
+
+Se interpretan y discuten los resultados. Es importante hacer una relación con los objetivos iniciales.
+
+También se deben comparar los resultados con estudios previos.
+
+Se abordan las limitaciones del estudio y las posibles implicaciones para futuras investigacione
+
+#  Conclusiones
+
+
+# Referencias
+
+
+
+
