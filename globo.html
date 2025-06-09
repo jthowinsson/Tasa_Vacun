@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Globo Interactivo - Data Analytics</title>
+    <meta charset="utf-8" />
+    <style> 
+        body { margin: 0; } 
+        .point-label {
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            border-radius: 3px;
+            font-family: sans-serif;
+        }
+    </style>
+    <script src="//unpkg.com/globe.gl"></script>
+</head>
+<body>
+    <div id="globeViz"></div>
+
+    <script>
+        // 1. Definimos los puntos de datos que queremos mostrar en el globo.
+        const nuestrosPuntos = [
+            {
+                lat: 34.05,
+                lng: -118.24,
+                size: 0.15,
+                color: 'cyan',
+                nombre: 'Hub Tecnológico de California, USA'
+            },
+            {
+                lat: 51.50,
+                lng: -0.12,
+                size: 0.15,
+                color: 'cyan',
+                nombre: 'Centro Financiero y de Datos de Londres, UK'
+            },
+            {
+                lat: 28.61,
+                lng: 77.20,
+                size: 0.15,
+                color: 'cyan',
+                nombre: 'Hub de Servicios de TI y Análisis en India'
+            },
+            {
+                lat: 4.71,
+                lng: -74.07,
+                size: 0.15,
+                color: 'yellow',
+                nombre: 'Centro de Emprendimiento Digital en Bogotá, Colombia'
+            }
+        ];
+
+        // 2. Creamos nuestro globo terráqueo
+        const miGlobo = Globe()
+            (document.getElementById('globeViz'))
+
+            .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+            .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+
+            .pointsData(nuestrosPuntos)
+            .pointAltitude('size')
+            .pointColor('color')
+            .pointLabel(punto => `<div class="point-label">${punto.nombre}</div>`);
+
+        // Hacemos que el globo gire solo
+        miGlobo.controls().autoRotate = true;
+        miGlobo.controls().autoRotateSpeed = 0.5;
+
+    </script>
+</body>
+</html>

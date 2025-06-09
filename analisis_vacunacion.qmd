@@ -1,0 +1,18 @@
+
+---
+title: "Análisis de Vacunación COVID-19 en Colombia"
+author: "Magíster Zamora"
+format: html
+bibliography: referencias.bib
+citation: true
+---
+
+## Introducción
+
+El análisis de las tasas de vacunación contra el COVID-19 permite evaluar el avance de la inmunización en distintos países. En este trabajo se utilizaron los datos publicados por Our World in Data[@owid-covid-vaccinations].
+
+## Conclusión
+
+Los datos disponibles permiten modelar la tasa de vacunación en Colombia mediante regresión beta, considerando su naturaleza de proporción entre 0 y 1.
+
+## Referencias
