@@ -65,7 +65,7 @@ Barranquilla-Colombia.
 ```
 
 ::: {#toc-imagen-container}
-<img src="Portada2.jpg" alt="Ejercicios de Practicas" id="imagen-toc"/>
+<img src="Portada2.jpg" alt="Regresion Beta" id="imagen-toc"/>
 :::
 
 ::: {style="text-align: left;"}
@@ -110,7 +110,20 @@ A nivel global, las altas tasas de vacunación son esenciales para controlar enf
 # Metodologia
 
 ::: {style="text-align: justify;"}
-En este documento se explicará cómo funciona el modelo beta en el contexto de un modelo lineal generalizado (GLM), utilizando la tasa de vacunación como ejemplo para una variable dependiente. Se detallará la media esperada $(𝜇)$ y su cálculo utilizando la función de enlace logit.
+
+Los datos de la tasa de vacunación contra el COVID‑19 utilizados en este análisis provienen de la plataforma **Our World in Data**, específicamente de la sección denominada **“Coronavirus (COVID‑19) Vaccinations**” y del repositorio correspondiente en GitHub. Estas series temporales están construidas a partir de información oficial suministrada por los gobiernos y ministerios de salud de cada país, incluidos datos de dosis administradas, personas vacunadas y poblaciones totales [ourworldindata.org](https://ourworldindata.org/covid-vaccinations?utm_source=chatgpt.com)
+
+La metodología de **Our World in Data** consiste en extraer, estandarizar y procesar diariamente los datos brutos, armonizando nombres geográficos, unidades y fechas, y calculando indicadores derivados, como la proporción de la población vacunada [ourworldindata.org](https://ourworldindata.org/covid-vaccinations?utm_source=chatgpt.com). Las cifras de población provienen de la División de Población de las Naciones Unidas, lo que permite normalizar las tasas de cobertura vacunal de forma coherente.
+
+En particular, los datos referentes a Colombia incluyen:
+
+- Número diario y acumulado de dosis administradas
+- Número de personas con al menos una dosis o esquema completo
+- Población estimada usada para calcular proporciones
+
+Estos registros se actualizan al día y están disponibles para descarga directa desde archivos CSV en el repositorio “owid/covid‑19‑data” de GitHub, lo que garantiza transparencia, trazabilidad y reproducibilidad del análisis [ourworldindata.org](https://ourworldindata.org/covid-vaccinations?utm_source=chatgpt.com).
+
+En este estudio se explicará cómo funciona el modelo beta en el contexto de un modelo lineal generalizado (GLM), utilizando la tasa de vacunación como ejemplo para una variable dependiente. Se detallará la media esperada $(\mu)$ y su cálculo utilizando la función de enlace logit.
 
 ### Supuestos del Modelo
 
@@ -584,8 +597,8 @@ datatable(
 ::: {.cell-output-display}
 
 ```{=html}
-<div class="datatables html-widget html-fill-item" id="htmlwidget-5b47e1a80cb0f5cdd77c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-5b47e1a80cb0f5cdd77c">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67"],["iso_code","continent","location","date","total_cases","new_cases","new_cases_smoothed","total_deaths","new_deaths","new_deaths_smoothed","total_cases_per_million","new_cases_per_million","new_cases_smoothed_per_million","total_deaths_per_million","new_deaths_per_million","new_deaths_smoothed_per_million","reproduction_rate","icu_patients","icu_patients_per_million","hosp_patients","hosp_patients_per_million","weekly_icu_admissions","weekly_icu_admissions_per_million","weekly_hosp_admissions","weekly_hosp_admissions_per_million","total_tests","new_tests","total_tests_per_thousand","new_tests_per_thousand","new_tests_smoothed","new_tests_smoothed_per_thousand","positive_rate","tests_per_case","tests_units","total_vaccinations","people_vaccinated","people_fully_vaccinated","total_boosters","new_vaccinations","new_vaccinations_smoothed","total_vaccinations_per_hundred","people_vaccinated_per_hundred","people_fully_vaccinated_per_hundred","total_boosters_per_hundred","new_vaccinations_smoothed_per_million","new_people_vaccinated_smoothed","new_people_vaccinated_smoothed_per_hundred","stringency_index","population_density","median_age","aged_65_older","aged_70_older","gdp_per_capita","extreme_poverty","cardiovasc_death_rate","diabetes_prevalence","female_smokers","male_smokers","handwashing_facilities","hospital_beds_per_thousand","life_expectancy","human_development_index","population","excess_mortality_cumulative_absolute","excess_mortality_cumulative","excess_mortality","excess_mortality_cumulative_per_million"],["character","character","character","character","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","logical","logical","logical","logical","logical","logical","logical","logical","numeric","logical","numeric","logical","numeric","numeric","numeric","numeric","character","numeric","numeric","numeric","logical","numeric","numeric","numeric","numeric","numeric","logical","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","logical","numeric","numeric","logical","logical","numeric","numeric","numeric","numeric","numeric","logical","logical","logical","logical"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Variable<\/th>\n      <th>Clase<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Variable","targets":1},{"name":"Clase","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-6bbc2c67ea3e229a92ea" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-6bbc2c67ea3e229a92ea">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67"],["iso_code","continent","location","date","total_cases","new_cases","new_cases_smoothed","total_deaths","new_deaths","new_deaths_smoothed","total_cases_per_million","new_cases_per_million","new_cases_smoothed_per_million","total_deaths_per_million","new_deaths_per_million","new_deaths_smoothed_per_million","reproduction_rate","icu_patients","icu_patients_per_million","hosp_patients","hosp_patients_per_million","weekly_icu_admissions","weekly_icu_admissions_per_million","weekly_hosp_admissions","weekly_hosp_admissions_per_million","total_tests","new_tests","total_tests_per_thousand","new_tests_per_thousand","new_tests_smoothed","new_tests_smoothed_per_thousand","positive_rate","tests_per_case","tests_units","total_vaccinations","people_vaccinated","people_fully_vaccinated","total_boosters","new_vaccinations","new_vaccinations_smoothed","total_vaccinations_per_hundred","people_vaccinated_per_hundred","people_fully_vaccinated_per_hundred","total_boosters_per_hundred","new_vaccinations_smoothed_per_million","new_people_vaccinated_smoothed","new_people_vaccinated_smoothed_per_hundred","stringency_index","population_density","median_age","aged_65_older","aged_70_older","gdp_per_capita","extreme_poverty","cardiovasc_death_rate","diabetes_prevalence","female_smokers","male_smokers","handwashing_facilities","hospital_beds_per_thousand","life_expectancy","human_development_index","population","excess_mortality_cumulative_absolute","excess_mortality_cumulative","excess_mortality","excess_mortality_cumulative_per_million"],["character","character","character","character","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","logical","logical","logical","logical","logical","logical","logical","logical","numeric","logical","numeric","logical","numeric","numeric","numeric","numeric","character","numeric","numeric","numeric","logical","numeric","numeric","numeric","numeric","numeric","logical","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","logical","numeric","numeric","logical","logical","numeric","numeric","numeric","numeric","numeric","logical","logical","logical","logical"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Variable<\/th>\n      <th>Clase<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Variable","targets":1},{"name":"Clase","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
 ```
 
 :::
@@ -796,17 +809,57 @@ ggplot(df_predicciones_lineales, aes(x = Indice_Observacion, y = Probabilidad_Pr
 
 # Discusión
 
-Se interpretan y discuten los resultados. Es importante hacer una relación con los objetivos iniciales.
+::: {style="text-align: justify;"}
+Los resultados del modelo de regresión Beta aplicado a la tasa de vacunación contra el COVID-19 en Colombia permiten identificar relaciones significativas entre esta variable y ciertos factores contextuales clave. La inclusión del stringency_index, total_tests y total_deaths como predictores responde a una lógica epidemiológica y gubernamental bien fundamentada.
 
-También se deben comparar los resultados con estudios previos.
+El hallazgo de una asociación negativa entre el índice de estrictura gubernamental (stringency_index) y la tasa de vacunación resulta particularmente interesante. Este resultado podría interpretarse de varias maneras: por un lado, un mayor nivel de restricciones puede estar vinculado a etapas tempranas de la pandemia, cuando las campañas de vacunación aún no estaban plenamente desplegadas; por otro, podría reflejar una respuesta reactiva del gobierno ante baja vacunación, más que una relación causal directa. Esto plantea interrogantes sobre la efectividad de las medidas coercitivas frente a estrategias comunicativas o educativas para fomentar la vacunación.
 
-Se abordan las limitaciones del estudio y las posibles implicaciones para futuras investigacione
+Por otro lado, el efecto altamente significativo y positivo del número total de pruebas realizadas sugiere que los países o regiones que han desarrollado capacidades robustas de testeo también han sido más eficientes en la administración de vacunas. Esto puede reflejar no solo una mayor infraestructura sanitaria, sino también una mayor confianza ciudadana en las instituciones de salud.
+
+Finalmente, la no significancia del número total de muertes en la predicción de la tasa de vacunación plantea hipótesis sociológicas y conductuales. A pesar de que la mortalidad debería generar mayor percepción de riesgo, podría estar mediada por factores como la desinformación, la fatiga pandémica o la percepción de invulnerabilidad entre ciertos grupos poblacionales.
+:::
 
 #  Conclusiones
+::: {style="text-align: justify;"}
 
+1. La regresión Beta se mostró como una técnica adecuada para modelar la tasa de vacunación, dado su carácter proporcional y acotado en el intervalo (0, 1).
 
+2. Se identificó que el índice de estrictura gubernamental tiene un efecto negativo estadísticamente significativo sobre la tasa de vacunación, lo que sugiere que las políticas restrictivas no necesariamente se traducen en mayores niveles de vacunación.
+
+3. El número total de pruebas diagnósticas se relaciona positivamente con la cobertura vacunal, indicando que una infraestructura de salud sólida y proactiva puede ser clave para el éxito de las campañas de inmunización.
+
+4. La no significancia de la variable total de muertes indica que el comportamiento poblacional frente a la vacunación no está directamente condicionado por la gravedad objetiva de la pandemia.
+
+5. El modelo obtuvo un pseudo-R² elevado (0.8723), lo cual respalda su capacidad explicativa en el contexto analizado.
+
+:::
+# Recomendaciones
+::: {style="text-align: justify;"}
+
+1. Reformular estrategias de comunicación gubernamental, priorizando la pedagogía sanitaria y la generación de confianza por encima de enfoques coercitivos. Las campañas deben ser sensibles a los factores sociales y culturales que influyen en la percepción de la vacunación.
+
+2. Fortalecer los sistemas de diagnóstico y pruebas, ya que se evidencia una relación directa entre la capacidad diagnóstica y la efectividad de la vacunación. Esto implica inversión en laboratorios, personal técnico y trazabilidad.
+
+3. Ampliar el análisis con nuevas variables, como nivel educativo, acceso a internet, cobertura en medios y presencia de campañas de desinformación, para entender mejor las barreras a la vacunación.
+
+4. Aplicar el modelo de regresión Beta en cortes regionales dentro de Colombia para evaluar heterogeneidad territorial en el comportamiento de la vacunación y ajustar políticas públicas a nivel departamental.
+
+5. Promover estudios longitudinales que analicen cómo evolucionan estas relaciones a lo largo del tiempo, especialmente con la aparición de nuevas variantes y la aplicación de dosis de refuerzo.
+
+6. Utilizar estos resultados para la planificación en futuras emergencias sanitarias, desarrollando políticas de vacunación adaptativas, basadas en evidencia y en datos en tiempo real.
+
+:::
 # Referencias
 
+::: {style="text-align: justify;"}
 
+- Morrison et al. (2020). Conscientious vaccination exemptions in kindergarten to eighth‑grade children across Texas schools from 2012 to 2018: A regression analysis. Utiliza beta regression para estudiar los determinantes socioeconómicos y geográficos de las exenciones de vacunación en escuelas de Texas [journals.plos.org](https://journals.plos.org/plosmedicine/article?id=10.1371%2Fjournal.pmed.1003049&utm_source=chatgpt.com)
+
+- A beta regression analysis of COVID‑19 mortality in Brazil (2023). Aplica regresión Beta al modelado de la tasa de mortalidad por COVID‑19 en Brasil, lo que representa un uso paralelo al modelado de proporciones (cobertura vacunal) [sciencedirect.com](https://www.sciencedirect.com/science/article/pii/S246804272300012X?utm_source=chatgpt.com)
+
+- Impact of Vaccination and Control Measures on the Fatality of … (2022). Emplea beta regression para estudiar factores que influencian la fatalidad del COVID‑19 en un contexto poblacional 
+[pmc.ncbi.nlm.nih.gov](https://pmc.ncbi.nlm.nih.gov/articles/PMC9513007/?utm_source=chatgpt.com)
+
+:::
 
 
